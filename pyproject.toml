@@ -6,9 +6,10 @@ authors = ["Denko <officedenko@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "3.11.4"
 django = "^4.2.6"
-pymongo = "^4.5.0"
+bson = "^0.5.10"
+pymongo = "4.4.0"
 
 
 [build-system]
