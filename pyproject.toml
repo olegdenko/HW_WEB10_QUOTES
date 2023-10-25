@@ -10,6 +10,8 @@ python = "3.11.4"
 django = "^4.2.6"
 bson = "^0.5.10"
 pymongo = "4.4.0"
+psycopg2 = "^2.9.9"
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]
