@@ -14,7 +14,7 @@
       crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'quotes/style.css' %}">
-    <title>Django_hw</title>
+    <title>Django_hw10</title>
         </head>
         <body>
             <div class="container">
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-4">
                 <p>
-                    <a href="{% url 'users:logout' %}" class="btn btn-primary">SignUp</a>
+                    <a href="{% url 'users:register' %}" class="btn btn-primary">SignUp</a>
                     <a href="{% url 'users:login' %}" class="btn btn-primary">Login</a>
                     <a href="{% url 'users:logout' %}" class="btn btn-primary">Logout</a>
                 </p>

@@ -12,7 +12,7 @@ class RegisterView(View):
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect(to="hw_quotes:root")
+            return redirect(to="quotes:root")
         return super(RegisterView, self).dispatch(request, * args, ** kwargs)
 
     def get(self, request):
