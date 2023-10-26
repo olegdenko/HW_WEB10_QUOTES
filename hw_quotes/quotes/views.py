@@ -30,8 +30,8 @@ def tag_quotes(request, tag):
 
 
 @login_required
-def upload(request):
-    form = PictureForm(instance=Picture())
+def add_author(request):
+    form = PictureForm(instance=Author())
     if request.method == "POST":
         form = PictureForm(request.POST, request.FILES, instance=Picture())
         if form.is_valid():

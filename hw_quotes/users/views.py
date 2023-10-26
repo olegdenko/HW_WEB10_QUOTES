@@ -5,7 +5,6 @@ from django.contrib import messages
 from .forms import RegisterForm
 # Create your views here.
 
-
 class RegisterView(View):
     form_class = RegisterForm
     template_name = "users/signup.html"
