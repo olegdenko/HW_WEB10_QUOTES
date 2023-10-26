@@ -35,12 +35,12 @@ def tag_quotes(request, tag):
 def add_author(request):
     form = AuthorForm(instance=Author())
     if request.method == "POST":
-        form = AuthorForm(request.POST, instance=Quote())
+        form = AuthorForm(request.POST, instance=Author())
         if form.is_valid():
-            pic = form.save(commit=False)
-            pic.user = request.user
-            pic.save()
-            return redirect(to="quotes:base")
+            author = form.save(commit=False)
+            author.user = request.user
+            author.save()
+            return redirect(to="quotes:root")
     return render(
         request,
         "quotes/add_author.html",
