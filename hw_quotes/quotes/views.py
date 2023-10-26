@@ -3,6 +3,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from django.core.paginator import Paginator
+
+from quotes.forms import AuthorForm
 from .models import Quote, Author, Tag
 # from .utils import get_mongodb
 # from .utils import get_postgresql
@@ -31,17 +33,17 @@ def tag_quotes(request, tag):
 
 @login_required
 def add_author(request):
-    form = PictureForm(instance=Author())
+    form = AuthorForm(instance=Author())
     if request.method == "POST":
-        form = PictureForm(request.POST, request.FILES, instance=Picture())
+        form = AuthorForm(request.POST, instance=Quote())
         if form.is_valid():
             pic = form.save(commit=False)
             pic.user = request.user
             pic.save()
-            return redirect(to="app_hw_web10:pictures")
+            return redirect(to="quotes:base")
     return render(
         request,
-        "app_hw_web10/upload.html",
+        "quotes/add_author.html",
         context={"title": "Web 10 hw!", "form": form}
     )
 

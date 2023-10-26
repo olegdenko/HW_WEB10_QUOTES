@@ -1,12 +1,14 @@
-from django.forms import ModelForm, ImageField, CharField, FileInput, TextInput
+from django.forms import ModelForm,  CharField, DateField, TextInput, DateInput, DateTimeField
 
 from .models import Author
 
 
 class AuthorForm(ModelForm):
-    description = CharField(max_length=150, widget=TextInput(attrs={"class": "form-control"}))
-    path = ImageField(widget=FileInput(attrs={"class": "form-control"}))
+    fullname = CharField(max_length=100, widget=TextInput(attrs={"class": "form-control"}))
+    born_date = DateField(widget=DateInput(attrs={"class": "form-control"}))
+    born_location = CharField(max_length=100, widget=TextInput(attrs={"class": "form-control"}))
+    description = CharField(max_length=100, widget=TextInput(attrs={"class": "form-control"}))
 
     class Meta:
         model = Author
-        fields = ["description", "path"]
+        fields = ["fullname", "born_date", "born_location", "description",]
