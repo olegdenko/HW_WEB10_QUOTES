@@ -26,4 +26,11 @@
     </li>
   </ul>
 </nav>
+{% endblock %} {% block left_sidebar %}
+<h3>Top 10 Tags</h3>
+<ul>
+  {% for tag in top_tags %}
+  <li><a href="{% url 'quotes:tag_quotes' tag.name %}">{{ tag.name }}</a></li>
+  {% endfor %}
+</ul>
 {% endblock %}

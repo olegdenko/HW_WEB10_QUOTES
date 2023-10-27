@@ -14,32 +14,42 @@
       crossorigin="anonymous">
     {% load static %}
     <link rel="stylesheet" href="{% static 'quotes/style.css' %}">
-    <title>Django_hw10</title>
-        </head>
-        <body>
-            <div class="container">
-            <div class="row header-box pt-3 m-3">
-                <div class="col-md-8">
-                <h1>
-                    <a href="/" style="text-decoration: none">Quotes to Scrape</a>
-                </h1>
-                </div>
-                <div class="col-md-4">
-                <p>
-                  {% if user.is_authenticated %}
-                    <a href="{% url 'quotes:add_author' %}" class="btn btn-primary">Add Author</a>
-                    <a href="{% url 'users:logout' %}" class="btn btn-primary">Add Quote</a>
-                    <a href="{% url 'users:logout' %}" class="btn btn-primary">Logout</a>
-                  {% else %}
-                    <a href="{% url 'users:register' %}" class="btn btn-primary">SignUp</a>
-                    <a href="{% url 'users:login' %}" class="btn btn-primary">Login</a>
-                  {% endif %}
-                </p>
-                </div>
-            </div>
-      {% block content %}
-      {% endblock %}
-    
+      <div class="row">
+          <div class="col-md-3">
+            <h3>Top 10 Tags</h3>
+            <ul>
+              {% for tag in top_tags %}
+                <li><a href="{% url 'quotes:tag_quotes' tag.name %}" class="btn btn-primary">{{ tag.name }}</a></li>
+              {% endfor %}
+            </ul>
+          </div>
+          <div class="col-md-9">
+      <title>Django_hw10</title>
+          </head>
+          <body>
+              <div class="container">
+              <div class="row header-box pt-3 m-3">
+                  <div class="col-md-8">
+                  <h1>
+                      <a href="/" style="text-decoration: none">Quotes to Scrape</a>
+                  </h1>
+                  </div>
+                  <div class="col-md-4">
+                  <p>
+                    {% if user.is_authenticated %}
+                      <a href="{% url 'quotes:add_author' %}" class="btn btn-primary">Add Author</a>
+                      <a href="{% url 'quotes:add_quote' %}" class="btn btn-primary">Add Quote</a>
+                      <a href="{% url 'users:logout' %}" class="btn btn-primary">Logout</a>
+                    {% else %}
+                      <a href="{% url 'users:register' %}" class="btn btn-primary">SignUp</a>
+                      <a href="{% url 'users:login' %}" class="btn btn-primary">Login</a>
+                    {% endif %}
+                  </p>
+                  </div>
+              </div>
+        {% block content %}
+        {% endblock %}
+      </div>
       </div>
     </div>
   </body>

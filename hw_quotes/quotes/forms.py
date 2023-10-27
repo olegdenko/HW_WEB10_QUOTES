@@ -1,14 +1,27 @@
-from django.forms import ModelForm,  CharField, DateField, TextInput, DateInput, DateTimeField
+from django.forms import ModelForm,  CharField, TextInput, DateInput, SelectMultiple
+from django.db import models
+from .models import Author, Quote, Tag
 
-from .models import Author
 
 
 class AuthorForm(ModelForm):
-    fullname = CharField(max_length=100, widget=TextInput(attrs={"class": "form-control"}))
-    born_date = CharField(max_length=100, widget=DateInput(attrs={"class": "form-control"}))
-    born_location = CharField(max_length=100, widget=TextInput(attrs={"class": "form-control"}))
-    description = CharField(widget=TextInput(attrs={"class": "form-control"}))
-
     class Meta:
         model = Author
-        fields = ["fullname", "born_date", "born_location", "description",]
+        fields = ["fullname", "born_date", "born_location", "description"]
+        widgets = {
+            'fullname': TextInput(attrs={"class": "form-control"}),
+            'born_date': TextInput(attrs={"class": "form-control"}),
+            'born_location': TextInput(attrs={"class": "form-control"}),
+            'description': TextInput(attrs={"class": "form-control"}),
+        }
+
+
+class QuoteForm(ModelForm):
+    class Meta:
+        model = Quote
+        fields = ["quote", "tags", "author"]
+        widgets = {
+            'quote': TextInput(attrs={"class": "form-control"}),
+            'tags': SelectMultiple(attrs={"class": "form-control"}),
+            'author': SelectMultiple(attrs={"class": "form-control"}),
+        }
