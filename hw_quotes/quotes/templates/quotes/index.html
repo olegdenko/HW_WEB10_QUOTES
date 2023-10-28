@@ -16,8 +16,8 @@
         <a class="tag" href="/tag/{{tag.name}}">{{tag.name}}</a>
         {% endfor %}
       </div>
-      {% if not user.is_authenticated %}
-      <a href="{% url 'quotes:edit' quote.id %}" class="btn btn-primary"
+      {% if user.is_authenticated and user == quote.user %}
+      <a href="{% url 'quotes:edit_quote' quote.id %}" class="btn btn-primary"
         >Edit</a
       >
       <a href="{% url 'quotes:remove' quote.id %}" class="btn btn-primary"

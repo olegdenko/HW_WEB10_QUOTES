@@ -59,19 +59,15 @@ def add_author(request):
 @login_required
 def add_quote(request):
     form = QuoteForm(instance=Quote())
-
     if request.method == "POST":
         form = QuoteForm(request.POST, instance=Quote())
-
         if form.is_valid():
             quote = form.save(commit=False)
             quote.user = request.user
             quote.save()
-
-            # Отримуємо вибрані теги
             selected_tags = request.POST.getlist('tags')
-            # Додаємо ці теги до цитати
             quote.tags.set(selected_tags)
+            return redirect(to="quotes:root")
 
     return render(
         request,
@@ -99,6 +95,7 @@ def delete_quote(request, quote_id):
 
         return render(request, 'quotes/index.html', {'quote': quote})
     else:
+
         return redirect('quotes:quote_list')
 
 
@@ -110,13 +107,14 @@ def edit_quote(request, quote_id):
             form = QuoteForm(request.POST, instance=quote)
             if form.is_valid():
                 form.save()
-                return redirect('quotes:quote_detail', quote_id=quote.id)
+                return redirect(to="quotes:root")
         else:
             form = QuoteForm(instance=quote)
 
         return render(request, 'quotes/edit_quote.html', {'form': form, 'quote': quote})
     else:
         return redirect('quotes:quote_list')
+
 
 def login(request):
     return render(request, "user/signin.html", context={"title": "Web 10 hw!"})

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Author(models.Model):
@@ -25,3 +26,4 @@ class Quote(models.Model):
     author = models.ForeignKey(
         Author, on_delete=models.CASCADE, default=None, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=2)
