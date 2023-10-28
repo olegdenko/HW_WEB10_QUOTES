@@ -1,5 +1,6 @@
 import os
-from django.shortcuts import render, redirect
+from pipes import quote
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 
@@ -7,8 +8,6 @@ from django.core.paginator import Paginator
 
 from quotes.forms import AuthorForm, QuoteForm
 from .models import Quote, Author, Tag
-# from .utils import get_mongodb
-# from .utils import get_postgresql
 
 # Create your views here.
 
@@ -21,6 +20,10 @@ def main(request, page=1):
     quotes_on_page = paginator.get_page(page)
 
     return render(request, 'quotes/index.html', context={'quotes': quotes_on_page, 'top_tags': top_tags})
+
+
+def get_all_tags():
+    return Tag.objects.all()
 
 
 def author_detail(request, author_id):
@@ -56,19 +59,25 @@ def add_author(request):
 @login_required
 def add_quote(request):
     form = QuoteForm(instance=Quote())
+
     if request.method == "POST":
         form = QuoteForm(request.POST, instance=Quote())
+
         if form.is_valid():
-            author = form.save(commit=False)
-            author.user = request.user
-            author.save()
-            return redirect(to="quotes:root")
+            quote = form.save(commit=False)
+            quote.user = request.user
+            quote.save()
+
+            # Отримуємо вибрані теги
+            selected_tags = request.POST.getlist('tags')
+            # Додаємо ці теги до цитати
+            quote.tags.set(selected_tags)
+
     return render(
         request,
         "quotes/add_quote.html",
-        context={"title": "Web 10 hw!", "form": form}
+        context={"title": "Web 10 hw!", "form": form, "tags": get_all_tags()}
     )
-
 
 @login_required
 def logined_quotes(request, page=1):
@@ -80,26 +89,35 @@ def logined_quotes(request, page=1):
 
 
 @login_required
-def remove(request, pic_id):
-    picture = Picture.objects.filter(pk=pic_id, user=request.user)
-    try:
-        os.unlink(os.path.join(settings.MEDIA_ROOT, str(picture.first().path)))
-    except OSError as e:
-        print(e)
-    picture.delete()
-    return redirect(to="app_hw_web10:pictures")
+def delete_quote(request, quote_id):
+    quote = get_object_or_404(Quote, id=quote_id)
+
+    if quote.user == request.user:
+        if request.method == "POST":
+            quote.delete()
+            return redirect('quotes:quote_list')
+
+        return render(request, 'quotes/index.html', {'quote': quote})
+    else:
+        return redirect('quotes:quote_list')
 
 
 @login_required
-def edit(request, pic_id):
-    if request.method == 'POST':
-        description = request.POST.get('description')
-        Picture.objects.filter(pk=pic_id, user=request.user).update(
-            description=description)
-        return redirect(to="app_hw_web10:pictures")
+def edit_quote(request, quote_id):
+    quote = get_object_or_404(Quote, id=quote_id)
+    if quote.user == request.user:
+        if request.method == "POST":
+            form = QuoteForm(request.POST, instance=quote)
+            if form.is_valid():
+                form.save()
+                return redirect('quotes:quote_detail', quote_id=quote.id)
+        else:
+            form = QuoteForm(instance=quote)
 
-    picture = Picture.objects.filter(pk=pic_id, user=request.user).first()
-    return render(request, "app_hw_web10/edit.html", context={"title": "Web 10 hw!", "pic": picture, "media": settings.MEDIA_URL})
+        return render(request, 'quotes/edit_quote.html', {'form': form, 'quote': quote})
+    else:
+        return redirect('quotes:quote_list')
+
 def login(request):
     return render(request, "user/signin.html", context={"title": "Web 10 hw!"})
 
@@ -114,5 +132,5 @@ def register(request):
 #     per_page = 10
 #     paginator = Paginator(list(quotes), per_page)
 #     quotes_on_page = paginator.page(page)
-#     # return render(request, 'quotes/index.html', context={})
+#     return render(request, 'quotes/index.html', context={})
 #     return render(request, 'quotes/index.html', context={'quotes': quotes_on_page})

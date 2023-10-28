@@ -19,7 +19,9 @@
             <h3>Top 10 Tags</h3>
             <ul>
               {% for tag in top_tags %}
-                <li><a href="{% url 'quotes:tag_quotes' tag.name %}" class="btn btn-primary">{{ tag.name }}</a></li>
+                <li>
+                  <a href="{% url 'quotes:tag_quotes' tag.name %}" class="btn btn-primary">{{ tag.name }}</a>
+                </li>
               {% endfor %}
             </ul>
           </div>

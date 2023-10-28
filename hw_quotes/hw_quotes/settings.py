@@ -124,6 +124,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 LOGIN_REDIRECT_URL = '/quotes'
 LOGIN_URL = '/users/signin'
+STATICFILES_DIRS = [
+    BASE_DIR / "quotes/static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

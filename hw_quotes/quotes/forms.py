@@ -1,7 +1,6 @@
-from django.forms import ModelForm,  CharField, TextInput, DateInput, SelectMultiple
-from django.db import models
+from django.forms import ModelForm, CharField, TextInput, SelectMultiple
 from .models import Author, Quote, Tag
-
+from django import forms
 
 
 class AuthorForm(ModelForm):
@@ -23,5 +22,4 @@ class QuoteForm(ModelForm):
         widgets = {
             'quote': TextInput(attrs={"class": "form-control"}),
             'tags': SelectMultiple(attrs={"class": "form-control"}),
-            'author': SelectMultiple(attrs={"class": "form-control"}),
         }

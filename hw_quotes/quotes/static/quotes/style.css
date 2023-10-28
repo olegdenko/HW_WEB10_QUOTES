@@ -70,3 +70,20 @@ a:-webkit-any-link {
     cursor: pointer;
     text-decoration: underline;
 }
+
+.tag-list {
+    list-style: none;
+    padding: 0;
+}
+
+.tag-list li {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+  .tag-list {
+      columns: 10;
+      /* Змінюємо на бажану кількість стовпчиків */
+      -webkit-columns: 10;
+      -moz-columns: 10;
+  }
