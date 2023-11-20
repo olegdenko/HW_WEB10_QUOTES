@@ -104,8 +104,10 @@ def edit_quote(request, quote_id):
     quote = get_object_or_404(Quote, id=quote_id)
     if quote.user == request.user:
         if request.method == "POST":
-            form = QuoteForm(request.POST, instance=quote)
-            if form.is_valid():
+            # form = QuoteForm(request.POST, instance=quote)
+            form = QuoteForm(request.POST or None, instance=quote)
+            # if form.is_valid():
+            if request.method == "POST" and form.is_valid():
                 form.save()
                 return redirect(to="quotes:root")
         else:

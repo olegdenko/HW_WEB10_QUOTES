@@ -2,13 +2,9 @@
 <h1>Sign In</h1>
 {% if messages %} {% for message in messages %}
 <div
-  {%
-  if
-  message.tags%}
+  {% if message.tags%}
   class="alert alert-{{message.tags}}"
-  {%
-  endif
-  %}
+  {% endif %}
   role="alert"
 >
   {{message}}
@@ -35,6 +31,10 @@
     <span>{{form.errors.password}}</span>
   </div>
   <button type="submit" class="btn btn-primary">SignIn</button>
+  </div>
+    <div class="small text-center">
+      <a href="{% url 'users:password_reset' %}" class="text-center"><i>Forgot Password?</i></a>
+  </div>
 </form>
 
 {% endblock %}
